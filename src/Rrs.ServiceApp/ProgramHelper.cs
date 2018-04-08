@@ -8,7 +8,7 @@ namespace Rrs.ServiceApp
 {
     public static class ProgramHelper
     {
-        public static int Run(ServiceBase service, WpfApp app, string[] args)
+        public static int Run(ServiceBase service, IWpfApp app, string[] args)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Rrs.ServiceApp
                         sc.Stop();
                         wasRunnnig = true;
                     }
-                    app.Startup += app.Application_Startup;
+                    app.InitializeComponent();
                     app.Run();
                     if (wasRunnnig)
                     {
