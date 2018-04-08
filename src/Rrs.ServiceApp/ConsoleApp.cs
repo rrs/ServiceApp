@@ -1,0 +1,63 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Rrs.ServiceApp
+{
+    public static class ConsoleApp
+    {
+        private const uint WM_CHAR = 0x0102;
+        private const int VK_ENTER = 0x0D;
+        private const int ATTACH_PARENT_PROCESS = -1;
+
+        [DllImport("kernel32.dll")]
+        static extern bool AttachConsole(int dwProcessId);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool FreeConsole();
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        static extern int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+        public static void Run(string serviceName, string[] args)
+        {
+            bool install = false, uninstall = false;
+
+            // redirect console output to parent process;
+            // must be before any calls to Console.WriteLine()
+            AttachConsole(ATTACH_PARENT_PROCESS);
+            IntPtr cw = GetConsoleWindow();
+            foreach (string arg in args)
+            {
+                switch (arg)
+                {
+                    case "-i":
+                    case "-install":
+                        install = true; break;
+                    case "-u":
+                    case "-uninstall":
+                        uninstall = true; break;
+                    default:
+                        Console.Error.WriteLine("Argument not expected: " + arg);
+                        break;
+                }
+            }
+
+            if (uninstall)
+            {
+                ServiceInstaller.Install(serviceName, true, args);
+            }
+            if (install)
+            {
+                ServiceInstaller.Install(serviceName, false, args);
+            }
+
+            // Send the Enter key to the console window no matter where it is.
+            SendMessage(cw, WM_CHAR, (IntPtr)VK_ENTER, IntPtr.Zero);
+
+            FreeConsole();
+        }
+    }
+}
