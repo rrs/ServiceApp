@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Rrs.ServiceApp Class Library</Description>
     <Authors>Robert Snipe</Authors>
@@ -12,6 +12,11 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Company>rrs</Company>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="content\**" />
+    <EmbeddedResource Remove="content\**" />
+    <None Remove="content\**" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
