@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Configuration.Install;
 using System.Reflection;
 using System.ServiceProcess;
 
 namespace Rrs.ServiceApp
 {
-    public static class ServiceInstaller
+    [RunInstaller(true)]
+    public class ServiceAppInstaller : Installer
     {
         public static void Install(string serviceName, bool undo, string[] args)
         {
@@ -15,6 +17,20 @@ namespace Rrs.ServiceApp
                 Console.WriteLine(undo ? "uninstalling" : "installing");
                 using (var inst = new AssemblyInstaller(Assembly.GetEntryAssembly(), args))
                 {
+                    var processInstaller = new ServiceProcessInstaller
+                    {
+                        Account = ServiceAccount.LocalSystem
+                    };
+
+                    var serviceInstaller = new System.ServiceProcess.ServiceInstaller
+                    {
+                        StartType = ServiceStartMode.Automatic,
+                        ServiceName = serviceName
+                    };
+
+                    inst.Installers.Add(processInstaller);
+                    inst.Installers.Add(serviceInstaller);
+
                     IDictionary state = new Hashtable();
                     inst.UseNewContext = true;
                     try

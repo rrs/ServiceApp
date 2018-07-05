@@ -47,11 +47,11 @@ namespace Rrs.ServiceApp
 
             if (uninstall)
             {
-                ServiceInstaller.Install(serviceName, true, args);
+                ServiceAppInstaller.Install(serviceName, true, args);
             }
             if (install)
             {
-                ServiceInstaller.Install(serviceName, false, args);
+                ServiceAppInstaller.Install(serviceName, false, args);
             }
 
             // Send the Enter key to the console window no matter where it is.
