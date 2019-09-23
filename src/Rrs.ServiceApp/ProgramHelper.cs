@@ -23,7 +23,7 @@ namespace Rrs.ServiceApp
                     }
                     else
                     {
-                        ConsoleApp.Run(service.ServiceName, args);
+                        ConsoleApp.Run(service.ServiceName, args, serviceDescription);
                     }
                 }
                 else
