@@ -8,7 +8,7 @@ namespace Rrs.ServiceApp
 {
     public static class ProgramHelper
     {
-        public static int Run(ServiceBase service, Func<IWpfApp> appFunc, string[] args)
+        public static int Run(ServiceBase service, Func<IWpfApp> appFunc, string[] args, string serviceDescription = null)
         {
             try
             {
