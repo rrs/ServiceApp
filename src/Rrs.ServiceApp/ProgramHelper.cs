@@ -59,9 +59,9 @@ namespace Rrs.ServiceApp
             }
         }
 
-        public static int Run<T>(ServiceBase service, string[] args) where T : IWpfApp, new()
+        public static int Run<T>(ServiceBase service, string[] args, string serviceDescription = null) where T : IWpfApp, new()
         {
-            return Run(service, () => new T(), args);
+            return Run(service, () => new T(), args, serviceDescription);
         }
     }
 }
