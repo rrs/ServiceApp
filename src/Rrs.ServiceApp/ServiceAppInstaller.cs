@@ -2,15 +2,17 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Configuration.Install;
+using System.Linq;
 using System.Reflection;
 using System.ServiceProcess;
+using System.Text.RegularExpressions;
 
 namespace Rrs.ServiceApp
 {
     [RunInstaller(true)]
     public class ServiceAppInstaller : Installer
     {
-        public static void Install(string serviceName, bool undo, string[] args)
+        public static void Install(string serviceName, bool undo, string[] args, string description = null)
         {
             try
             {
@@ -25,7 +27,9 @@ namespace Rrs.ServiceApp
                     var serviceInstaller = new System.ServiceProcess.ServiceInstaller
                     {
                         StartType = ServiceStartMode.Automatic,
-                        ServiceName = serviceName
+                        ServiceName = serviceName,
+                        DisplayName = string.Join(" ", Regex.Matches(serviceName, @"([A-Z][a-z]+)").Cast<Match>().Select(m => m.Value)),
+                        Description = description
                     };
 
                     inst.Installers.Add(processInstaller);
