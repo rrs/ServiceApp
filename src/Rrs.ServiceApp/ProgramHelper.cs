@@ -8,7 +8,7 @@ namespace Rrs.ServiceApp
 {
     public static class ProgramHelper
     {
-        public static int Run(ServiceBase service, Func<IWpfApp> appFunc, string[] args, string serviceDescription = null)
+        public static int Run(ServiceBase service, Func<IWpfApp> appFunc, string[] args, string serviceDisplayName = null, string serviceDescription = null)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Rrs.ServiceApp
                     }
                     else
                     {
-                        ConsoleApp.Run(service.ServiceName, args, serviceDescription);
+                        ConsoleApp.Run(service.ServiceName, args, serviceDisplayName, serviceDescription);
                     }
                 }
                 else
@@ -59,9 +59,9 @@ namespace Rrs.ServiceApp
             }
         }
 
-        public static int Run<T>(ServiceBase service, string[] args, string serviceDescription = null) where T : IWpfApp, new()
+        public static int Run<T>(ServiceBase service, string[] args, string serviceDisplayName = null, string serviceDescription = null) where T : IWpfApp, new()
         {
-            return Run(service, () => new T(), args, serviceDescription);
+            return Run(service, () => new T(), args, serviceDisplayName, serviceDescription);
         }
     }
 }

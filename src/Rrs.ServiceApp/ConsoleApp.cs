@@ -21,7 +21,7 @@ namespace Rrs.ServiceApp
         [DllImport("user32.dll")]
         static extern int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        public static void Run(string serviceName, string[] args, string serviceDescription = null)
+        public static void Run(string serviceName, string[] args, string serviceDisplayName = null, string serviceDescription = null)
         {
             bool install = false, uninstall = false;
 
@@ -47,11 +47,11 @@ namespace Rrs.ServiceApp
 
             if (uninstall)
             {
-                ServiceAppInstaller.Install(serviceName, true, args, serviceDescription);
+                ServiceAppInstaller.Install(serviceName, true, args, serviceDisplayName, serviceDescription);
             }
             if (install)
             {
-                ServiceAppInstaller.Install(serviceName, false, args, serviceDescription);
+                ServiceAppInstaller.Install(serviceName, false, args, serviceDisplayName, serviceDescription);
             }
 
             // Send the Enter key to the console window no matter where it is.

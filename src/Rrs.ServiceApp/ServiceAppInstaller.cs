@@ -12,7 +12,7 @@ namespace Rrs.ServiceApp
     [RunInstaller(true)]
     public class ServiceAppInstaller : Installer
     {
-        public static void Install(string serviceName, bool undo, string[] args, string description = null)
+        public static void Install(string serviceName, bool undo, string[] args, string serviceDisplayName = null, string description = null)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Rrs.ServiceApp
                     {
                         StartType = ServiceStartMode.Automatic,
                         ServiceName = serviceName,
-                        DisplayName = string.Join(" ", Regex.Matches(serviceName, @"([A-Z][a-z]+)").Cast<Match>().Select(m => m.Value)),
+                        DisplayName = serviceDisplayName ?? Regex.Replace(serviceName, "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " "),
                         Description = description
                     };
 
